@@ -11,6 +11,7 @@ const CreateUser = () => {
   const createUser = useCallback(() => {
     dispatch(addUser({id: userPublicKey, name: name}));
   },[userPublicKey, name]);
+
   const deleteAll = useCallback(() => {
     dispatch(removeAllUsers());
   },[userPublicKey, name]);
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    // borderWidth: 1,
-    // borderColor: '#000000'
+    borderWidth: 1,
+    borderColor: '#000000'
   }
 });

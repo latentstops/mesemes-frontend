@@ -24,6 +24,7 @@ const usersSlice = createSlice({
   }),
   reducers: {
     addUser: usersAdapter.addOne,
+    removeUser: usersAdapter.removeOne,
     removeAllUsers: usersAdapter.removeAll,
   },
   extraReducers: (builder) => {
@@ -50,4 +51,4 @@ export const {
 
 export default usersSlice.reducer;
 
-export const { addUser, removeAllUsers } = usersSlice.actions;
+export const { addUser, removeAllUsers, removeUser } = usersSlice.actions;

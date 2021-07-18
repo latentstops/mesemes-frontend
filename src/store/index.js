@@ -1,18 +1,36 @@
-import {applyMiddleware, combineReducers, createStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import { applyMiddleware, combineReducers, createStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 
-import messageReducer from './message';
+import messagesReducer from './messages';
 import usersReducer from './users';
 
 const persistConfig = {
   key: 'root',
-  storage: AsyncStorage
+  storage: AsyncStorage,
+  // whitelist: ['users', ]
 };
 
 const rootReducer = combineReducers({
-  message: messageReducer,
-  users: usersReducer
+  keys: (state = {}, action) => {
+    if( action.type === 'GET_KEYS' ){
+      const { payload: { publicKey, privateKey, } } = action;
+      return {
+        publicKey,
+        privateKey,
+        id: publicKey
+      };
+    }
+    return state;
+  },
+  messages: messagesReducer,
+  users: usersReducer,
+  selectedUserId: (state = null, action) => {
+    if( action.type === 'SELECT_USER' ) {
+      return action.payload
+    }
+    return state;
+  }
 });
 
 const middleware = getDefaultMiddleware({
@@ -20,6 +38,7 @@ const middleware = getDefaultMiddleware({
 });
 
 const reducer = persistReducer(persistConfig, rootReducer);
+
 export const store = createStore(reducer, applyMiddleware(...middleware));
 
 export const persistor = persistStore(store);

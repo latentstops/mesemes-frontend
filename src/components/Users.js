@@ -7,28 +7,28 @@ import {
   Button
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsers, selectAllUsers } from '../store/users';
+import { fetchUsers, removeUser, selectAllUsers } from '../store/users';
+import { useNavigation } from "@react-navigation/core";
 
 const Users = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.users);
   const users = useSelector(selectAllUsers);
 
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
-
-  if (loading) {
+  if (!users.length) {
     return <ActivityIndicator size="large" style={styles.loader} />;
   }
-  console.log(users);
+  // console.log(users);
+  const navigateToMessages = user => () => {
+    dispatch({ type: 'SELECT_USER', payload: user.id });
+    navigation.navigate('Messages', user);
+  }
   return (
     <View>
-      <Button title={'Reload'} onPress={() => dispatch(fetchUsers())} />
       {users.map((user) => {
         return (
           <View style={styles.container} key={user.id}>
-            <View>
+            <View onTouchStart={ navigateToMessages(user) }>
               <View style={styles.dataContainer}>
                 <Text>
                   {user.name}
@@ -39,7 +39,9 @@ const Users = () => {
                   {user.id}
                 </Text>
               </View>
+
             </View>
+            <Button title={'Delete'} onPress={ () => dispatch(removeUser(user.id)) } />
           </View>
         );
       })}

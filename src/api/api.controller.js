@@ -1,7 +1,7 @@
 import * as api from './api';
 import AsyncStorageStatic from "@react-native-async-storage/async-storage";
 
-let keys = null;
+export let keys = null;
 
 export const createMessage = async ({ receiverPublicKey, privateMessage, publicMessage }) => {
     const { privateKey: senderPrivateKey } = await getKeys();
@@ -20,13 +20,29 @@ export const getMessages = async () => {
 
 export async function getKeys() {
     const keysInStorage = await AsyncStorageStatic.getItem('keys').catch( () => null );
-    console.log({keysInStorage});
-    if( keysInStorage ){
+    const keysInStoryExists = keysInStorage && keysInStorage !== "null";
+
+    console.log({
+        keysInStorage,
+        keysInStoryExists,
+        typeOf: typeof keysInStorage,
+        convertedToBool: Boolean( keysInStorage )
+    });
+
+    if( keysInStoryExists ){
         return keys = JSON.parse( keysInStorage );
     } else {
-        const keysInBackend = await api.createKeyPair();
+        await createKeyPair();
         await AsyncStorageStatic.setItem('keys', JSON.stringify( keys ));
-        keys = keysInBackend;
         return keys;
     }
 }
+
+export const setKeys = data => keys = data;
+
+export const createKeyPair = async () => {
+    const keysFromBackend = await api.createKeyPair();
+    console.log({keysFromBackend});
+    keys = keysFromBackend;
+    return keysFromBackend;
+};
