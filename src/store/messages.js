@@ -13,10 +13,18 @@ import * as api from '../api';
 
 export const createMessageThunk = createAsyncThunk('messages/createMessage', async ({ publicMessage, privateMessage, receiverPublicKey }) => {
   const createMessageResponse = await api.createMessage({ publicMessage, privateMessage, receiverPublicKey });
-  const result = { ...createMessageResponse, receiverPublicKey, id: Date.now() };
+  const result = { ...createMessageResponse, receiverPublicKey, id: Date.now(), sent: true };
   console.log({createMessageResult: result});
   return result;
 });
+
+export const getPrivateMessageThunk = createAsyncThunk('messages/getPrivateMessage', async ({ publicMessage, privateMessage, senderPublicKey }) => {
+  const createMessageResponse = await api.createMessage({ publicMessage, privateMessage, senderPublicKey });
+  const result = { ...createMessageResponse, senderPublicKey, id: Date.now(), received: true };
+  console.log({getPrivateMessage: JSON.stringify(result, null, 2)});
+  return result;
+});
+
 
 export const messagesAdapter = createEntityAdapter();
 
@@ -38,6 +46,17 @@ const messagesSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(createMessageThunk.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(getPrivateMessageThunk.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getPrivateMessageThunk.fulfilled, (state, action) => {
+      console.log({action});
+      messagesAdapter.addOne(state, action.payload);
+      state.loading = false;
+    });
+    builder.addCase(getPrivateMessageThunk.rejected, (state) => {
       state.loading = false;
     });
   }
@@ -62,4 +81,4 @@ export const selectMessagesBySenderId = createSelector(
 export default messagesSlice.reducer;
 
 export const { removeAllMessages, removeMessage } = messagesSlice.actions;
-export { createMessageThunk as createMessage }
+export { createMessageThunk as createMessage, getPrivateMessageThunk as getPrivateMessage };

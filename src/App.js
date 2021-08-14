@@ -13,6 +13,8 @@ import {PersistGate} from "redux-persist/integration/react";
 import {selectMessagesBySenderId} from "./store/messages";
 import { keys } from './api';
 import Messages from "./components/Messages";
+import {HomeScreen} from "./screens/HomeScreen";
+import {CreateContact} from "./screens/CreateContact";
 
 const Stack = createStackNavigator();
 
@@ -21,9 +23,11 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Users">
-              <Stack.Screen name="Users" component={UsersScreen} />
-              <Stack.Screen name="Messages" component={MessagesScreen} />
+            <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen name="Home"          component={HomeScreen} />
+              <Stack.Screen name="Users"         component={UsersScreen} />
+              <Stack.Screen name="Messages"      component={MessagesScreen} />
+              <Stack.Screen name="CreateContact" component={CreateContact} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
