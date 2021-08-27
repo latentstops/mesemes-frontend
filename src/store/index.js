@@ -3,12 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 
 import messagesReducer from './messages';
-import usersReducer from './users';
+import contactsReducer from './contacts';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  // whitelist: ['users', ]
+  // whitelist: ['contacts', ]
 };
 
 const rootReducer = combineReducers({
@@ -24,9 +24,9 @@ const rootReducer = combineReducers({
     return state;
   },
   messages: messagesReducer,
-  users: usersReducer,
-  selectedUserId: (state = null, action) => {
-    if( action.type === 'SELECT_USER' ) {
+  contacts: contactsReducer,
+  selectedContactId: (state = null, action) => {
+    if( action.type === 'SELECT_CONTACT' ) {
       return action.payload
     }
     return state;

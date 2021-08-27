@@ -5,52 +5,56 @@ import KeyIconImage from '../img/key.png';
 import SearchIconImage from '../img/search.png';
 import MailIconImage from '../img/mail.png';
 // import Icon from "react-native-vector-icons/RNIMigration";
+import {Octicons, MaterialIcons, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
 
 
 
 export const HomeScreen = ({ navigation }) => {
     // const Icon = () => null;
+    const navigateToContacts = () => navigation.navigate('Contacts');
     return (
         <View style={style.wrapper}>
-            <Text h1 style={style.heading}>Mesemes</Text>
             <View style={style.container}>
                 <View style={style.menuItemWrapper}>
                     <View style={[style.menuItem,style.menuItemCloud]}>
-                        <Image style={style.imageIcon} source={CloudWithIconImage} />
+                        <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
                         <Text style={style.menuItemHeading}>Share your public key</Text>
-                        <Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>
+                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
                     </View>
                 </View>
                 <View style={style.menuItemWrapper}>
-                    <View style={[style.menuItem,style.menuItemKey]}>
-                        <Image style={style.imageIcon} source={KeyIconImage} />
-                        <Text style={style.menuItemHeading}>Share your public key</Text>
-                        <Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>
-                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate('Create contact')}>
+                        <View style={[style.menuItem,style.menuItemKey]}>
+                            <MaterialCommunityIcons name="key" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Paste friends public key</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={style.menuItemWrapper}>
                     <View style={[style.menuItem,style.menuItemMail]}>
-                        <Image style={style.imageIcon} source={MailIconImage} />
-                        <Text style={style.menuItemHeading}>Share your public key</Text>
-                        <Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>
+                        <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
+                        <Text style={style.menuItemHeading}>Create protected message</Text>
+                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
                     </View>
                 </View>
                 <View style={style.menuItemWrapper}>
                     <View style={[style.menuItem,style.menuItemSearch]}>
-                        <Image style={style.imageIcon} source={SearchIconImage} />
-                        <Text style={style.menuItemHeading}>Share your public key</Text>
-                        <Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>
+                        <MaterialCommunityIcons name="message-lock-outline" size={70} color="gray" />
+                        <Text style={style.menuItemHeading}>Decrypt protected message</Text>
+                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
                     </View>
                 </View>
 
             </View>
 
-            <TouchableOpacity style={style.buttonNext} onPress={() => navigation.navigate('Users')}>
+            <TouchableOpacity style={style.buttonNext} onPress={navigateToContacts}>
                 {/*<View style={style.buttonNext}>*/}
                 {/*    */}
                 {/*</View>*/}
                 <Text style={style.buttonNextText} >Contacts</Text>
-                <Text style={style.buttonNextIcon}> > </Text>
+                <MaterialIcons style={style.buttonNextIcon} name="arrow-forward-ios" size={32} color="green" />
+
             </TouchableOpacity>
             {/*</Icon>*/}
         </View>
@@ -59,6 +63,7 @@ export const HomeScreen = ({ navigation }) => {
 
 const style = StyleSheet.create({
     wrapper: {
+        backgroundColor: 'gray',
         padding: 10,
         height: '100%'
     },
@@ -77,7 +82,7 @@ const style = StyleSheet.create({
     menuItemWrapper: {
         width: '50%',
         flexShrink: 0,
-        padding: 10,
+        padding: 8,
     },
     menuItem: {
         backgroundColor: '#333',

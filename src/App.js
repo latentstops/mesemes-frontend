@@ -7,14 +7,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import {persistor, store} from "./store";
 import { createMessage, getPrivateMessage, getKeys} from "./api";
-import CreateUser from "./components/CreateUser";
-import Users from "./components/Users";
+import CreateContact from "./components/CreateContact";
+import Contacts from "./components/Contacts";
 import {PersistGate} from "redux-persist/integration/react";
 import {selectMessagesBySenderId} from "./store/messages";
 import { keys } from './api';
 import Messages from "./components/Messages";
 import {HomeScreen} from "./screens/HomeScreen";
-import {CreateContact} from "./screens/CreateContact";
 
 const Stack = createStackNavigator();
 
@@ -22,12 +21,12 @@ export default function App() {
   return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Home"          component={HomeScreen} />
-              <Stack.Screen name="Users"         component={UsersScreen} />
+          <NavigationContainer >
+            <Stack.Navigator initialRouteName="Mesemes">
+              <Stack.Screen name="Mesemes"       component={HomeScreen} />
+              <Stack.Screen name="Contacts"      component={Contacts} />
               <Stack.Screen name="Messages"      component={MessagesScreen} />
-              <Stack.Screen name="CreateContact" component={CreateContact} />
+              <Stack.Screen name="Create contact" component={CreateContact} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
@@ -35,7 +34,7 @@ export default function App() {
   );
 }
 
-export function UsersScreen() {
+export function ContactsScreen() {
   const dispatch = useDispatch();
   const [ keyPair, setKeyPair ] = useState();
   const [ publicMessageForSend, setPublicMessageForSend ] = useState();
@@ -67,64 +66,15 @@ export function UsersScreen() {
       senderPublicKey,
     }).then( (res) => alert(JSON.stringify(res?.privateMessage || res?.error)) ).catch((e) => alert(e.message));
   },[publicMessageReceived, senderPublicKey]);
-  // const Provider = props => <>{props.children}</>;
-  /*return (
-      <SafeAreaView style={styles.container}>
 
-          <TextInput
-              style={styles.input}
-              placeholder="My public key"
-              value={keyPair?.publicKey}
-          />
-          <View
-              style={{
-                borderBottomColor: 'black',
-                borderBottomWidth: 1,
-              }}
-          />
-
-          <TextInput
-              style={styles.input}
-              placeholder="Receiver public key"
-              onChangeText={setReceiverPublicKey}
-              value={receiverPublicKey}
-          />
-          <TextInput
-              style={styles.input}
-              placeholder="Public message"
-              onChangeText={setPublicMessageForSend}
-              value={publicMessageForSend}
-          />
-          <TextInput
-              style={styles.input}
-              placeholder="Private message"
-              onChangeText={setPrivateMessageForSend}
-              value={privateMessageForSend}
-          />
-          <Button title="Create message" style={styles.input} onPress={sendCreateMessage}/>
-          <TextInput
-              style={styles.input}
-              placeholder="Sender public key"
-              onChangeText={setSenderPublicKey}
-              value={senderPublicKey}
-          />
-          <TextInput
-              style={styles.input}
-              placeholder="Public message received"
-              onChangeText={setPublicMessageReceived}
-              value={publicMessageReceived}
-          />
-          <Button title="Open message" style={styles.input} onPress={sendGetPrivateMessage}/>
-        </SafeAreaView>
-  )*/
   return (
       <View style={styles.container}>
           {/*<StatusBar barStyle="dark-content" />*/}
           <TextInput style={styles.input}>{keys?.publicKey}</TextInput>
           <SafeAreaView style={styles.container}>
               <ScrollView contentContainerStyle={styles.container}>
-                  <CreateUser />
-                  <Users />
+                  <CreateContact />
+                  <Contacts />
               </ScrollView>
           </SafeAreaView>
       </View>
@@ -134,7 +84,7 @@ export function UsersScreen() {
 export function MessagesScreen({ route, navigation }) {
   const routeParams = route.params;
   const messages = useSelector( selectMessagesBySenderId );
-  const selectedId = useSelector( state => state.selectedUserId );
+  const selectedId = useSelector( state => state.selectedContactId );
   return (
       <Messages/>
   );
