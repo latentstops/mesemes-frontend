@@ -42,7 +42,7 @@ const messagesSlice = createSlice({
     });
     builder.addCase(createMessageThunk.fulfilled, (state, action) => {
       console.log({action});
-      messagesAdapter.addOne(state, action.payload);
+      messagesAdapter.addOne(state, {...action.payload, timestamp: Date.now()});
       state.loading = false;
     });
     builder.addCase(createMessageThunk.rejected, (state) => {

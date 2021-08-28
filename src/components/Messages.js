@@ -47,7 +47,9 @@ const Messages = ({ navigation }) => {
                             <Text style={tailwind('text-black')}>{message.privateMessage}</Text>
                         </View>
 
-
+                        <View>
+                            <Text>{tryParseDate(message.timestamp)}</Text>
+                        </View>
 
                     </View>
                 ) ) }
@@ -55,6 +57,13 @@ const Messages = ({ navigation }) => {
         </View>
     );
 };
+function tryParseDate( ms ){
+    try {
+        return new Date(ms).toString().replace(/GMT.+/, '');
+    } catch {
+        return '';
+    }
+}
 
 export default Messages;
 
