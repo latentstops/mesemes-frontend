@@ -18,7 +18,7 @@ const DecryptMessage = () => {
     const [privateMessageReceived, setPrivateMessageReceived] = useState();
     const [publicMessageReceived, setPublicMessageReceived] = useState(clipBoardText);
     useEffect(() => setPublicMessageReceived(clipBoardText), [clipBoardText]);
-    // console.log({clipBoardText, clipboardTextMemoized, publicMessageReceived});
+
     return (
         <View style={styles.dataContainer}>
             <TextInput style={styles.input}

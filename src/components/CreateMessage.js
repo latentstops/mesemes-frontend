@@ -16,13 +16,13 @@ const CreateMessage = () => {
         <View style={styles.dataContainer}>
             {/*<TextInput disabled style={styles.input} value={contact?.id}/>*/}
             <TextInput
-                placeholder={'Public message for send'}
+                placeholder={'Public'}
                 style={styles.input}
                 value={publicMessageForSend}
                 onChange={e => setPublicMessageForSend(e.nativeEvent.text)}
             />
             <TextInput
-                placeholder={'Private message for send'}
+                placeholder={'Private'}
                 style={styles.input}
                 value={privateMessageForSend}
                 onChange={e => setPrivateMessage(e.nativeEvent.text)}

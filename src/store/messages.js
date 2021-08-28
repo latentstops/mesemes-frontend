@@ -52,9 +52,8 @@ const messagesSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getPrivateMessageThunk.fulfilled, (state, action) => {
-      console.log({action});
       if(action.payload?.error) return;
-      messagesAdapter.addOne(state, action.payload);
+      messagesAdapter.addOne(state, {...action.payload, timestamp: Date.now()});
       state.loading = false;
     });
     builder.addCase(getPrivateMessageThunk.rejected, (state) => {

@@ -33,8 +33,8 @@ const Messages = ({ navigation }) => {
                                     <View style={tailwind('flex justify-end')}>
                                         {
                                             message.received
-                                                ? <Feather name="arrow-left" size={10} style={tailwind('text-black')} />
-                                                : <Feather name="arrow-right" size={10} style={tailwind('text-black')} />
+                                                ? <Feather name="arrow-left" size={14} style={tailwind('text-black text-gray-800')} />
+                                                : <Feather name="arrow-right" size={14} style={tailwind('text-black text-gray-400')} />
                                         }
                                     </View>
                                 </View>
