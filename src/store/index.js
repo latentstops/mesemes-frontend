@@ -8,7 +8,6 @@ import contactsReducer from './contacts';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  // whitelist: ['contacts', ]
 };
 
 const rootReducer = combineReducers({

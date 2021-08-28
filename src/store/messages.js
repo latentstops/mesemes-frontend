@@ -18,8 +18,8 @@ export const createMessageThunk = createAsyncThunk('messages/createMessage', asy
   return result;
 });
 
-export const getPrivateMessageThunk = createAsyncThunk('messages/getPrivateMessage', async ({ publicMessage, privateMessage, senderPublicKey }) => {
-  const createMessageResponse = await api.createMessage({ publicMessage, privateMessage, senderPublicKey });
+export const getPrivateMessageThunk = createAsyncThunk('messages/getPrivateMessage', async ({ publicMessage, senderPublicKey }) => {
+  const createMessageResponse = await api.getPrivateMessage({ publicMessage, senderPublicKey });
   const result = { ...createMessageResponse, senderPublicKey, id: Date.now(), received: true };
   console.log({getPrivateMessage: JSON.stringify(result, null, 2)});
   return result;
@@ -53,6 +53,7 @@ const messagesSlice = createSlice({
     });
     builder.addCase(getPrivateMessageThunk.fulfilled, (state, action) => {
       console.log({action});
+      if(action.payload?.error) return;
       messagesAdapter.addOne(state, action.payload);
       state.loading = false;
     });

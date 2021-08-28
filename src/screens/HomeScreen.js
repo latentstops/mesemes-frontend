@@ -12,18 +12,23 @@ import {Octicons, MaterialIcons, Ionicons, MaterialCommunityIcons} from '@expo/v
 export const HomeScreen = ({ navigation }) => {
     // const Icon = () => null;
     const navigateToContacts = () => navigation.navigate('Contacts');
+    const navigateToSharePublicKey = () => navigation.navigate('Share public key');
+    const navigateToCreateContact = () => navigation.navigate('Create contact');
+
     return (
         <View style={style.wrapper}>
             <View style={style.container}>
                 <View style={style.menuItemWrapper}>
-                    <View style={[style.menuItem,style.menuItemCloud]}>
-                        <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
-                        <Text style={style.menuItemHeading}>Share your public key</Text>
-                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                    </View>
+                    <TouchableOpacity onPress={navigateToSharePublicKey} >
+                        <View style={[style.menuItem,style.menuItemCloud]}>
+                            <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Share your public key</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={style.menuItemWrapper}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Create contact')}>
+                    <TouchableOpacity onPress={navigateToCreateContact}>
                         <View style={[style.menuItem,style.menuItemKey]}>
                             <MaterialCommunityIcons name="key" size={70} color="gray" />
                             <Text style={style.menuItemHeading}>Paste friends public key</Text>

@@ -1,91 +1,57 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useMemo, useState} from 'react';
 import {
     StyleSheet,
     View,
-    Button, TextInput
+    Button, TextInput, ScrollView, Text
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {createMessage, selectMessagesBySenderId, getPrivateMessage} from '../store/messages';
-import {useClipBoardText} from "../hooks/useClipBoardText";
-// import {getPrivateMessage} from "../api";
+import {useSelector} from 'react-redux';
+import tailwind from "tailwind-rn";
+import {Feather} from "@expo/vector-icons";
 
-const Messages = () => {
-    const dispatch = useDispatch();
-    const contact = useSelector(state => state.contacts.entities[state.selectedContactId]);
-    const allMessages = useSelector(state => state.messages);
-    const sentMessages = useSelector(state =>
-        Object.values(state.messages.entities).filter(message => message.sent)
-    );
-    const receivedMessages = useSelector(state =>
-        Object.values(state.messages.entities).filter(message => message.received)
-    );
-    const [publicMessageForSend, setPublicMessageForSend] = useState();
-    const [privateMessageForSend, setPrivateMessage] = useState();
-    const clipBoardText = useClipBoardText();
-    const [privateMessageReceived, setPrivateMessageReceived] = useState();
-    const [publicMessageReceived, setPublicMessageReceived] = useState(clipBoardText);
-    const clipboardTextMemoized = useMemo(() => clipBoardText, [clipBoardText]);
-
+const Messages = ({ navigation }) => {
+    const navigateToDecryptMessage = () => navigation.navigate('Decrypt message');
+    const navigateToCreateMessage = () => navigation.navigate('Create message');
+    const allMessages = useSelector(state => state.messages.ids
+        .map( id => state.messages.entities[id] )
+        .filter(m => [m.receiverPublicKey, m.senderPublicKey].includes(state.selectedContactId) && !m.error)
+        .reverse()
+    ) || [];
+    // console.log(allMessages[0])
     return (
-        <View style={styles.dataContainer}>
-            <TextInput disabled style={styles.input} value={contact?.id}/>
-            <TextInput
-                placeholder={'Public message for send'}
-                style={styles.input}
-                value={publicMessageForSend}
-                onChange={e => setPublicMessageForSend(e.nativeEvent.text)}
-            />
-            <TextInput
-                placeholder={'Private message for send'}
-                style={styles.input}
-                value={privateMessageForSend}
-                onChange={e => setPrivateMessage(e.nativeEvent.text)}
-            />
+        <View style={tailwind('bg-gray-300 h-full')}>
+            <Button title={'Create Message'} onPress={navigateToCreateMessage} />
+            <Button title={'Decrypt Message'} onPress={navigateToDecryptMessage}/>
 
-            <Button title={'Create'} onPress={() => dispatch(createMessage({
-                id: Date.now(),
-                publicMessage: publicMessageForSend,
-                privateMessage: privateMessageForSend,
-                receiverPublicKey: contact.id
-            }))}/>
+            <ScrollView>
+                { allMessages.map( message => (
+                    <View style={tailwind('bg-gray-100 rounded-xl border border-gray-200 mx-2 my-1 p-2 flex')} key={message.id}>
 
-            <TextInput
-                placeholder={'Private message received'}
-                style={styles.input}
-                value={privateMessageReceived}
-                onChange={e => setPrivateMessageReceived(e.nativeEvent.text)}
-            />
-            <TextInput
-                placeholder={'Public message received'}
-                style={styles.input}
-                value={clipboardTextMemoized || publicMessageForSend}
-                onChange={e => setPublicMessageReceived(e.nativeEvent.text)}
-            />
-
-            <Button title={'Open'} onPress={() => dispatch(getPrivateMessage({
-                id: Date.now(),
-                publicMessage: publicMessageReceived,
-                senderPublicKey: contact.id
-            }))}/>
-
-            {[...sentMessages, ...receivedMessages].map((message) => {
-                return (
-                    <View style={styles.container} key={message?.id || Date.now()}>
-                        <View style={styles.container}>
-                            <View style={styles.dataContainer}>
-                                <TextInput style={styles.input} value={message?.privateMessage}/>
+                        <View style={tailwind('flex')}>
+                            <View style={tailwind('flex flex-row w-full')}>
+                                <Text style={tailwind('text-gray-400 flex-grow')}>public</Text>
+                                <View style={tailwind('flex justify-center')}>
+                                    <View style={tailwind('flex justify-end')}>
+                                        {
+                                            message.received
+                                                ? <Feather name="arrow-left" size={10} style={tailwind('text-black')} />
+                                                : <Feather name="arrow-right" size={10} style={tailwind('text-black')} />
+                                        }
+                                    </View>
+                                </View>
                             </View>
-                            <View style={styles.dataContainer}>
-                                <TextInput style={styles.input} value={message?.publicMessage}/>
-                            </View>
-                            <View style={styles.dataContainer}>
-                                <TextInput style={styles.input} value={JSON.stringify(message)}/>
-                            </View>
-
+                            <Text style={tailwind('text-black')}>{message.publicMessage}</Text>
                         </View>
+
+                        <View style={tailwind('flex')}>
+                            <Text style={tailwind('text-gray-400')}>private</Text>
+                            <Text style={tailwind('text-black')}>{message.privateMessage}</Text>
+                        </View>
+
+
+
                     </View>
-                );
-            })}
+                ) ) }
+            </ScrollView>
         </View>
     );
 };

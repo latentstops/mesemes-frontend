@@ -23,15 +23,19 @@ const Contacts = () => {
 
   const navigateToMessages = contact => () => {
     dispatch({ type: 'SELECT_CONTACT', payload: contact.id });
+    console.log(JSON.stringify(contact,null,2));
     navigation.navigate('Messages', contact);
   }
+
   return (
     <ScrollView>
       {contacts.map(contact => {
         return (
             <View key={contact.id} style={tailwind('p-2 flex-row')}>
 
-              <TouchableOpacity style={tailwind('flex-row flex-grow')} onPress={navigateToMessages(contact)}>
+              <TouchableOpacity style={tailwind('flex-row flex-grow')}
+                                onPress={navigateToMessages(contact)}
+              >
 
                 <View style={tailwind('flex-none bg-gray-300 w-12 h-12 px-2 py-2 rounded-full')}>
                   <MaterialCommunityIcons name="message-text-clock" size={32} style={tailwind('text-black')} />
@@ -44,7 +48,9 @@ const Contacts = () => {
 
               </TouchableOpacity>
 
-              <TouchableOpacity style={tailwind('flex-none py-2 ')} onPress={() => dispatch(removeContact(contact.id))}>
+              <TouchableOpacity style={tailwind('flex-none py-2 ')}
+                                onPress={() => dispatch(removeContact(contact.id))}
+              >
                 <Feather name='x-circle' size={24} />
               </TouchableOpacity>
 
