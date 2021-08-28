@@ -1,58 +1,88 @@
-import React, { useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
     StyleSheet,
     View,
-    Button, TextInput, ScrollView, Text
+    Button, ScrollView, Text
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import tailwind from "tailwind-rn";
 import {Feather} from "@expo/vector-icons";
+import {getPrivateMessage} from "../store/messages";
+import {useClipBoardText} from "../hooks/useClipBoardText";
 
-const Messages = ({ navigation }) => {
-    const navigateToDecryptMessage = () => navigation.navigate('Decrypt message');
-    const navigateToCreateMessage = () => navigation.navigate('Create message');
+const Messages = () => {
+    const dispatch = useDispatch();
+    const publicMessage = useClipBoardText();
+    const senderPublicKey = useSelector(state => state.selectedContactId);
     const allMessages = useSelector(state => state.messages.ids
         .map( id => state.messages.entities[id] )
         .filter(m => [m.receiverPublicKey, m.senderPublicKey].includes(state.selectedContactId) && !m.error)
         .reverse()
     ) || [];
-    // console.log(allMessages[0])
+    const [requestDone, setRequestDone] = useState(false);
+    useEffect(() => {
+        if(!requestDone && publicMessage){
+            console.log('getPrivateMessage', JSON.stringify({
+                id: Date.now(),
+                publicMessage,
+                senderPublicKey
+            }));
+
+            dispatch(getPrivateMessage({
+                id: Date.now(),
+                publicMessage,
+                senderPublicKey
+            }));
+            setRequestDone(true);
+        }
+    },[requestDone, setRequestDone, publicMessage, dispatch]);
     return (
         <View style={tailwind('bg-gray-300 h-full')}>
-            <Button title={'Create Message'} onPress={navigateToCreateMessage} />
-            <Button title={'Decrypt Message'} onPress={navigateToDecryptMessage}/>
-
             <ScrollView>
-                { allMessages.map( message => (
-                    <View style={tailwind('bg-gray-100 rounded-xl border border-gray-200 mx-2 my-1 p-2 flex')} key={message.id}>
+                { !allMessages.length && (
+                    <View style={tailwind('flex items-center')}>
+                        <Text style={tailwind('p-2 text-lg')}>No messages yet!</Text>
+                    </View>
+                ) }
+                { allMessages.map( message => {
+                    const diff = Date.now() - message.id;
+                    const isNew = diff <= 20000;
+                    return (
+                        <View style={[
+                            tailwind('bg-gray-100 rounded-xl border border-gray-200 mx-2 my-1 p-2 flex'),
+                            tailwind( isNew ? 'border-green-300 border-2' : '' )
+                        ]}
+                              key={message.id}>
 
-                        <View style={tailwind('flex')}>
-                            <View style={tailwind('flex flex-row w-full')}>
-                                <Text style={tailwind('text-gray-400 flex-grow')}>public</Text>
-                                <View style={tailwind('flex justify-center')}>
-                                    <View style={tailwind('flex justify-end')}>
-                                        {
-                                            message.received
-                                                ? <Feather name="arrow-left" size={14} style={tailwind('text-black text-gray-800')} />
-                                                : <Feather name="arrow-right" size={14} style={tailwind('text-black text-gray-400')} />
-                                        }
+                            <View style={tailwind('flex')}>
+                                <View style={tailwind('flex flex-row w-full')}>
+                                    <Text style={tailwind('text-gray-400 flex-grow')}>public</Text>
+                                    <View style={tailwind('flex')}>
+                                        <View style={tailwind('flex flex-row')}>
+                                            { isNew && <Text style={tailwind('flex')}>new</Text>}
+                                            {
+                                                message.received
+                                                    ? <Feather name="arrow-left" size={14} style={tailwind('text-black text-gray-800')} />
+                                                    : <Feather name="arrow-right" size={14} style={tailwind('text-black text-gray-400')} />
+                                            }
+                                        </View>
                                     </View>
                                 </View>
+                                <Text style={tailwind('text-black')}>{message.publicMessage}</Text>
                             </View>
-                            <Text style={tailwind('text-black')}>{message.publicMessage}</Text>
-                        </View>
 
-                        <View style={tailwind('flex')}>
-                            <Text style={tailwind('text-gray-400')}>private</Text>
-                            <Text style={tailwind('text-black')}>{message.privateMessage}</Text>
-                        </View>
+                            <View style={tailwind('flex')}>
+                                <Text style={tailwind('text-gray-400')}>private</Text>
+                                <Text style={tailwind('text-black')}>{message.privateMessage}</Text>
+                            </View>
 
-                        <View>
-                            <Text>{tryParseDate(message.timestamp)}</Text>
-                        </View>
+                            <View>
+                                <Text>{tryParseDate(message.id)}</Text>
+                            </View>
 
-                    </View>
-                ) ) }
+                        </View>
+                    );
+                } ) }
             </ScrollView>
         </View>
     );
@@ -66,23 +96,3 @@ function tryParseDate( ms ){
 }
 
 export default Messages;
-
-const styles = StyleSheet.create({
-    loader: {
-        marginTop: 'auto',
-        marginBottom: 'auto'
-    },
-    container: {
-        flexDirection: 'row',
-        marginVertical: 10
-    },
-    dataContainer: {
-        flexDirection: 'column'
-    },
-    input: {
-        width: '100%',
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-    }
-});

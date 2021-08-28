@@ -6,34 +6,38 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {createMessage} from '../store/messages';
+import {useNavigation} from "@react-navigation/core";
 
 const CreateMessage = () => {
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const contact = useSelector(state => state.contacts.entities[state.selectedContactId]);
     const [publicMessageForSend, setPublicMessageForSend] = useState();
     const [privateMessageForSend, setPrivateMessage] = useState();
     return (
         <View style={styles.dataContainer}>
-            {/*<TextInput disabled style={styles.input} value={contact?.id}/>*/}
-            <TextInput
-                placeholder={'Public'}
-                style={styles.input}
-                value={publicMessageForSend}
-                onChange={e => setPublicMessageForSend(e.nativeEvent.text)}
-            />
             <TextInput
                 placeholder={'Private'}
                 style={styles.input}
                 value={privateMessageForSend}
                 onChange={e => setPrivateMessage(e.nativeEvent.text)}
             />
+            <TextInput
+                placeholder={'Public'}
+                style={styles.input}
+                value={publicMessageForSend}
+                onChange={e => setPublicMessageForSend(e.nativeEvent.text)}
+            />
 
-            <Button title={'Create'} onPress={() => dispatch(createMessage({
-                id: Date.now(),
-                publicMessage: publicMessageForSend,
-                privateMessage: privateMessageForSend,
-                receiverPublicKey: contact.id
-            }))}/>
+            <Button title={'Create'} onPress={() => {
+                dispatch(createMessage({
+                    id: Date.now(),
+                    publicMessage: publicMessageForSend,
+                    privateMessage: privateMessageForSend,
+                    receiverPublicKey: contact.id
+                }));
+                navigation.navigate('Messages');
+            }}/>
 
         </View>
     );

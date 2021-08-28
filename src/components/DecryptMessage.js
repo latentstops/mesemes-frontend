@@ -8,9 +8,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getPrivateMessage} from '../store/messages';
 import {useClipBoardText} from "../hooks/useClipBoardText";
 import tailwind from "tailwind-rn";
+import {useNavigation} from "@react-navigation/core";
 // import {getPrivateMessage} from "../api";
 
 const DecryptMessage = () => {
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const clipBoardText = useClipBoardText();
     const selectedContactId = useSelector(state => state.selectedContactId);
@@ -34,11 +36,14 @@ const DecryptMessage = () => {
             {/*    value={privateMessageReceived}*/}
             {/*/>*/}
 
-            <Button title={'Decrypt'} onPress={() => dispatch(getPrivateMessage({
-                id: Date.now(),
-                publicMessage: publicMessageReceived,
-                senderPublicKey: contact.id
-            }))}/>
+            <Button title={'Decrypt'} onPress={() => {
+                dispatch(getPrivateMessage({
+                    id: Date.now(),
+                    publicMessage: publicMessageReceived,
+                    senderPublicKey: contact.id
+                }));
+                navigation.navigate('Messages');
+            }}/>
         </View>
     );
 };

@@ -23,7 +23,6 @@ const Contacts = () => {
 
   const navigateToMessages = contact => () => {
     dispatch({ type: 'SELECT_CONTACT', payload: contact.id });
-    console.log(JSON.stringify(contact,null,2));
     navigation.navigate('Messages', contact);
   }
 

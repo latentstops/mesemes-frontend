@@ -6,6 +6,7 @@ import SearchIconImage from '../img/search.png';
 import MailIconImage from '../img/mail.png';
 // import Icon from "react-native-vector-icons/RNIMigration";
 import {Octicons, MaterialIcons, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import tailwind from "tailwind-rn";
 
 
 
@@ -38,14 +39,14 @@ export const HomeScreen = ({ navigation }) => {
                 </View>
                 <View style={style.menuItemWrapper}>
                     <View style={[style.menuItem,style.menuItemMail]}>
-                        <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
+                        <MaterialCommunityIcons name="message-text-lock-outline" size={70}  />
                         <Text style={style.menuItemHeading}>Create protected message</Text>
                         {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
                     </View>
                 </View>
                 <View style={style.menuItemWrapper}>
                     <View style={[style.menuItem,style.menuItemSearch]}>
-                        <MaterialCommunityIcons name="message-lock-outline" size={70} color="gray" />
+                        <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
                         <Text style={style.menuItemHeading}>Decrypt protected message</Text>
                         {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
                     </View>
