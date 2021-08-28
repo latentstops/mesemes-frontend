@@ -1,13 +1,12 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {
-    StyleSheet,
     View,
-    Button, ScrollView, Text
+    ScrollView, Text, TouchableOpacity, Alert, AppState
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import tailwind from "tailwind-rn";
-import {Feather} from "@expo/vector-icons";
-import {getPrivateMessage} from "../store/messages";
+import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
+import {getPrivateMessage, removeMessage} from "../store/messages";
 import {useClipBoardText} from "../hooks/useClipBoardText";
 
 const Messages = () => {
@@ -19,23 +18,14 @@ const Messages = () => {
         .filter(m => [m.receiverPublicKey, m.senderPublicKey].includes(state.selectedContactId) && !m.error)
         .reverse()
     ) || [];
-    const [requestDone, setRequestDone] = useState(false);
     useEffect(() => {
-        if(!requestDone && publicMessage){
-            console.log('getPrivateMessage', JSON.stringify({
-                id: Date.now(),
-                publicMessage,
-                senderPublicKey
-            }));
-
+        if(publicMessage){
             dispatch(getPrivateMessage({
-                id: Date.now(),
                 publicMessage,
                 senderPublicKey
             }));
-            setRequestDone(true);
         }
-    },[requestDone, setRequestDone, publicMessage, dispatch]);
+    },[ publicMessage, dispatch]);
     return (
         <View style={tailwind('bg-gray-300 h-full')}>
             <ScrollView>
@@ -46,11 +36,15 @@ const Messages = () => {
                 ) }
                 { allMessages.map( message => {
                     const diff = Date.now() - message.id;
+                    /**
+                     * TODO: decide to move hardcoded value to settings
+                     * @type {boolean}
+                     */
                     const isNew = diff <= 20000;
                     return (
                         <View style={[
-                            tailwind('bg-gray-100 rounded-xl border border-gray-200 mx-2 my-1 p-2 flex'),
-                            tailwind( isNew ? 'border-green-300 border-2' : '' )
+                            tailwind('bg-gray-100 rounded-xl border border-gray-300 mx-2 my-1 p-2 flex'),
+                            tailwind( isNew ? 'border-gray-800 border-2' : '' )
                         ]}
                               key={message.id}>
 
@@ -59,12 +53,38 @@ const Messages = () => {
                                     <Text style={tailwind('text-gray-400 flex-grow')}>public</Text>
                                     <View style={tailwind('flex')}>
                                         <View style={tailwind('flex flex-row')}>
-                                            { isNew && <Text style={tailwind('flex')}>new</Text>}
+                                            { isNew && <Text style={tailwind('flex')}>NEW</Text>}
                                             {
                                                 message.received
                                                     ? <Feather name="arrow-left" size={14} style={tailwind('text-black text-gray-800')} />
                                                     : <Feather name="arrow-right" size={14} style={tailwind('text-black text-gray-400')} />
                                             }
+                                            <TouchableOpacity>
+                                                <MaterialCommunityIcons name="close" size={14} color="black" onPress={() => {
+                                                    Alert.alert(
+                                                        "Deleting message",
+                                                        "Do you want to delete this message?",
+                                                        [
+                                                            {
+                                                                text: "Cancel",
+                                                                onPress: () => console.log("Cancel Pressed"),
+                                                                style: "cancel"
+                                                            },
+                                                            {
+                                                                text: "OK",
+                                                                onPress: () => {
+                                                                    console.log("OK")
+                                                                    // console.log('STATE', JSON.stringify(state, null, 2));
+                                                                    console.log('MESSAGE', JSON.stringify(message, null, 2));
+                                                                    const action = removeMessage(`${message.id}`);
+                                                                    console.log({action});
+                                                                    dispatch(action);
+                                                                }
+                                                            }
+                                                        ]
+                                                    );
+                                                }}/>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </View>

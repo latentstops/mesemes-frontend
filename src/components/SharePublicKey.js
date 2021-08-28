@@ -1,18 +1,27 @@
 import React, {useEffect, useState} from "react";
 import {getKeys} from "../api";
-import {Text, TextInput, View} from "react-native";
+import {Share, TextInput, View} from "react-native";
+import tailwind from "tailwind-rn";
 
-const SharePublicKey = props => {
+/**
+ * TODO: Unused decide to remove
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const SharePublicKey = () => {
     const [ key, setKey ] = useState('');
-
     useEffect(() => {
-        getKeys().then( keys => {
-            console.log({publicKey: keys.publicKey});
-            setKey( keys.publicKey );
-        } );
+        getKeys()
+            .then( keys => setKey( keys.publicKey ) )
+            .then( () => {
+                // setTimeout(() => Share.share({message: key}), 1000);
+            });
     },[]);
+
     return (
-        <TextInput value={key}/>
+        <View style={tailwind('flex items-center')}>
+            <TextInput style={tailwind('text-lg')} value={key}/>
+        </View>
     );
 };
 

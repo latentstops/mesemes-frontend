@@ -1,49 +1,44 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     View,
-    Button, TextInput, ScrollView
+    Button, TextInput, TouchableOpacity, Text
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getPrivateMessage} from '../store/messages';
 import {useClipBoardText} from "../hooks/useClipBoardText";
 import tailwind from "tailwind-rn";
 import {useNavigation} from "@react-navigation/core";
-// import {getPrivateMessage} from "../api";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 const DecryptMessage = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const clipBoardText = useClipBoardText();
-    const selectedContactId = useSelector(state => state.selectedContactId);
     const contact = useSelector(state => state.contacts.entities[state.selectedContactId]);
-    const [privateMessageReceived, setPrivateMessageReceived] = useState();
     const [publicMessageReceived, setPublicMessageReceived] = useState(clipBoardText);
     useEffect(() => setPublicMessageReceived(clipBoardText), [clipBoardText]);
 
     return (
-        <View style={styles.dataContainer}>
-            <TextInput style={styles.input}
+        <View style={tailwind('flex items-center')}>
+            <TextInput style={tailwind('border w-full')}
                        value={publicMessageReceived}
                        onChange={e => {
-                           console.log('onChange', e)
-                           setPublicMessageReceived(e.nativeEvent.text)}
-                       }/>
+                           console.log('onChange', e);
+                           setPublicMessageReceived(e.nativeEvent.text);
+                       }}
+            />
 
-            {/*<TextInput*/}
-            {/*    placeholder={'Private message received'}*/}
-            {/*    style={styles.input}*/}
-            {/*    value={privateMessageReceived}*/}
-            {/*/>*/}
-
-            <Button title={'Decrypt'} onPress={() => {
+            <TouchableOpacity style={tailwind('flex flex-row p-2')} onPress={() => {
                 dispatch(getPrivateMessage({
-                    id: Date.now(),
                     publicMessage: publicMessageReceived,
                     senderPublicKey: contact.id
                 }));
                 navigation.navigate('Messages');
-            }}/>
+            }}>
+                <MaterialCommunityIcons name="message-lock" size={24} color="gray" />
+                <Text style={tailwind('text-lg')}>decrypt message</Text>
+            </TouchableOpacity>
         </View>
     );
 };

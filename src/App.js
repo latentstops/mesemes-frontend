@@ -3,6 +3,12 @@ import {Provider, useSelector} from "react-redux";
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import {Text, TouchableOpacity, View} from "react-native";
+import tailwind from "tailwind-rn";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {useNavigation} from "@react-navigation/core";
+
+
 import {persistor, store} from "./store";
 import CreateContact from "./components/CreateContact";
 import Contacts from "./components/Contacts";
@@ -12,10 +18,6 @@ import {HomeScreen} from "./screens/HomeScreen";
 import DecryptMessage from "./components/DecryptMessage";
 import SharePublicKey from "./components/SharePublicKey";
 import CreateMessage from "./components/CreateMessage";
-import {Text, TouchableOpacity, View} from "react-native";
-import tailwind from "tailwind-rn";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
-import {useNavigation} from "@react-navigation/core";
 import {selectContactById} from "./store/contacts";
 
 const Stack = createStackNavigator();

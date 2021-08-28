@@ -1,26 +1,22 @@
 import React from "react";
-import {Text, View, StyleSheet, Image, ImageBackground, Button, TouchableOpacity} from "react-native";
-import CloudWithIconImage from '../img/cloud-with-key.png';
-import KeyIconImage from '../img/key.png';
-import SearchIconImage from '../img/search.png';
-import MailIconImage from '../img/mail.png';
-// import Icon from "react-native-vector-icons/RNIMigration";
-import {Octicons, MaterialIcons, Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
-import tailwind from "tailwind-rn";
+import {Text, View, StyleSheet, TouchableOpacity, Share} from "react-native";
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {getKeys} from "../api";
 
 
 
 export const HomeScreen = ({ navigation }) => {
-    // const Icon = () => null;
     const navigateToContacts = () => navigation.navigate('Contacts');
-    const navigateToSharePublicKey = () => navigation.navigate('Share public key');
+    const sharePublicKey = () => {
+        getKeys().then( keys => Share.share({message: keys.publicKey}) );
+    };
     const navigateToCreateContact = () => navigation.navigate('Create contact');
 
     return (
         <View style={style.wrapper}>
             <View style={style.container}>
                 <View style={style.menuItemWrapper}>
-                    <TouchableOpacity onPress={navigateToSharePublicKey} >
+                    <TouchableOpacity onPress={sharePublicKey} >
                         <View style={[style.menuItem,style.menuItemCloud]}>
                             <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
                             <Text style={style.menuItemHeading}>Share your public key</Text>
@@ -38,31 +34,31 @@ export const HomeScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={style.menuItemWrapper}>
-                    <View style={[style.menuItem,style.menuItemMail]}>
-                        <MaterialCommunityIcons name="message-text-lock-outline" size={70}  />
-                        <Text style={style.menuItemHeading}>Create protected message</Text>
-                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                    </View>
+                    <TouchableOpacity onPress={navigateToContacts}>
+                        <View style={[style.menuItem,style.menuItemMail]}>
+                            <MaterialCommunityIcons name="message-text-lock-outline" size={70}  />
+                            <Text style={style.menuItemHeading}>Create protected message</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={style.menuItemWrapper}>
-                    <View style={[style.menuItem,style.menuItemSearch]}>
-                        <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
-                        <Text style={style.menuItemHeading}>Decrypt protected message</Text>
-                        {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                    </View>
+                    <TouchableOpacity onPress={navigateToContacts}>
+                        <View style={[style.menuItem,style.menuItemSearch]}>
+                            <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Decrypt protected message</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
             </View>
 
             <TouchableOpacity style={style.buttonNext} onPress={navigateToContacts}>
-                {/*<View style={style.buttonNext}>*/}
-                {/*    */}
-                {/*</View>*/}
                 <Text style={style.buttonNextText} >Contacts</Text>
                 <MaterialIcons style={style.buttonNextIcon} name="arrow-forward-ios" size={32} color="green" />
 
             </TouchableOpacity>
-            {/*</Icon>*/}
         </View>
     );
 };
