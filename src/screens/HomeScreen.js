@@ -1,7 +1,8 @@
 import React from "react";
 import {Text, View, StyleSheet, TouchableOpacity, Share} from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {getKeys} from "../api";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 

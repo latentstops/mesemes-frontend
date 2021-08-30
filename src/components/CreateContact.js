@@ -3,8 +3,9 @@ import {View, Button, TextInput, StyleSheet, SafeAreaView, Text, TouchableOpacit
 import { useDispatch } from 'react-redux';
 import {addContact, removeAllContacts} from "../store/contacts";
 import tailwind from 'tailwind-rn';
-import {Feather, Ionicons} from "@expo/vector-icons";
 import {useClipBoardText} from "../hooks/useClipBoardText";
+import Feather from "react-native-vector-icons/Feather";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const CreateContact = ({navigation}) => {
   const dispatch = useDispatch();

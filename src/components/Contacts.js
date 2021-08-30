@@ -10,7 +10,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts, removeContact, selectAllContacts } from '../store/contacts';
 import { useNavigation } from "@react-navigation/core";
 import tailwind from "tailwind-rn";
-import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
+import Feather from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
 
 const Contacts = () => {
   const navigation = useNavigation();

@@ -9,7 +9,7 @@ import {getPrivateMessage} from '../store/messages';
 import {useClipBoardText} from "../hooks/useClipBoardText";
 import tailwind from "tailwind-rn";
 import {useNavigation} from "@react-navigation/core";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const DecryptMessage = () => {
     const navigation = useNavigation();

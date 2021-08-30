@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Text, View, StyleSheet, Button, Clipboard} from "react-native";
+import React from "react";
+import {Text, View, StyleSheet, Button} from "react-native";
 import {useClipBoardText} from "../hooks/useClipBoardText";
 
 export const CreateContact = props => {

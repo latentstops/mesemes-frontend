@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {Text, TouchableOpacity, View} from "react-native";
 import tailwind from "tailwind-rn";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/core";
 
 
@@ -19,6 +18,7 @@ import DecryptMessage from "./components/DecryptMessage";
 import SharePublicKey from "./components/SharePublicKey";
 import CreateMessage from "./components/CreateMessage";
 import {selectContactById} from "./store/contacts";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Stack = createStackNavigator();
 

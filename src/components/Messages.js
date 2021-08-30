@@ -5,9 +5,10 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import tailwind from "tailwind-rn";
-import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
 import {getPrivateMessage, removeMessage} from "../store/messages";
 import {useClipBoardText} from "../hooks/useClipBoardText";
+import Feather from "react-native-vector-icons/Feather";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Messages = () => {
     const dispatch = useDispatch();
