@@ -138,6 +138,16 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+            release {
+                if (project.hasProperty('MESEMES_UPLOAD_STORE_FILE')) {
+                    storeFile file(MESEMES_UPLOAD_STORE_FILE)
+                    storePassword MESEMES_UPLOAD_STORE_PASSWORD
+                    keyAlias MESEMES_UPLOAD_KEY_ALIAS
+                    keyPassword MESEMES_UPLOAD_KEY_PASSWORD
+                }
+            }
+        }
     splits {
         abi {
             reset()
@@ -161,7 +171,8 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+//             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

@@ -1,7 +1,7 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
     View,
-    ScrollView, Text, TouchableOpacity, Alert, AppState
+    ScrollView, Text, TouchableOpacity, Alert
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import tailwind from "tailwind-rn";

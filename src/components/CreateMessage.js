@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
-    StyleSheet,
     View,
-    Button, TextInput, TouchableOpacity, Text, Share
+    TextInput, TouchableOpacity, Text, Share
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {createMessage} from '../store/messages';
@@ -32,7 +31,7 @@ const CreateMessage = () => {
         }
     }, [step, publicMessage, privateMessage]);
     return (
-        <View style={styles.dataContainer}>
+        <View style={tailwind('flex flex-col')}>
 
             { step === 1 && (
                 <CreateMessageStep1
@@ -89,23 +88,3 @@ const CreateMessageStep2 = props => {
 };
 
 export default CreateMessage;
-
-const styles = StyleSheet.create({
-    loader: {
-        marginTop: 'auto',
-        marginBottom: 'auto'
-    },
-    container: {
-        flexDirection: 'row',
-        marginVertical: 10
-    },
-    dataContainer: {
-        flexDirection: 'column'
-    },
-    input: {
-        width: '100%',
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-    }
-});

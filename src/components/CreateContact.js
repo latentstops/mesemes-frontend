@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {View, Button, TextInput, StyleSheet, SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {View, TextInput, SafeAreaView, Text, TouchableOpacity} from 'react-native';
 import { useDispatch } from 'react-redux';
 import {addContact, removeAllContacts} from "../store/contacts";
 import tailwind from 'tailwind-rn';
