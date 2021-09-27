@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {View, TextInput, SafeAreaView, Text, TouchableOpacity} from 'react-native';
+import {View, TextInput, SafeAreaView, Text, TouchableOpacity, ScrollView} from 'react-native';
 import { useDispatch } from 'react-redux';
 import {addContact, removeAllContacts} from "../store/contacts";
 import tailwind from 'tailwind-rn';
@@ -46,11 +46,11 @@ const PasteContactsKey = props => {
           </View>
 
           <View style={tailwind('py-6')}>
-            <Text style={tailwind('font-bold')}>{clipBoardText}</Text>
+            <Text style={tailwind('font-bold text-xs')}>{clipBoardText}</Text>
           </View>
 
           <View style={tailwind('h-full relative text-center')}>
-            <TouchableOpacity style={tailwind('bg-gray-400 rounded-full p-6 my-44')} onPress={() => onSubmit(clipBoardText)}>
+            <TouchableOpacity style={tailwind('bg-gray-400 rounded-full p-6 my-5')} onPress={() => onSubmit(clipBoardText)}>
               <Feather name="arrow-right" size={20} style={tailwind('text-black')} />
             </TouchableOpacity>
           </View>
@@ -78,7 +78,7 @@ const CreateContactsName = props => {
 
 
           <View style={tailwind('h-full text-center')}>
-            <TouchableOpacity style={tailwind('bg-gray-400 rounded-full p-6 my-44')} onPress={() => onSubmit(name)}>
+            <TouchableOpacity style={tailwind('bg-gray-400 rounded-full p-6 my-10')} onPress={() => onSubmit(name)}>
               <Feather name="arrow-right" size={20} style={tailwind('text-black')} />
             </TouchableOpacity>
           </View>

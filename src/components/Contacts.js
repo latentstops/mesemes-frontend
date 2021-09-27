@@ -44,7 +44,7 @@ const Contacts = () => {
 
                 <View style={tailwind('px-2 flex-grow')}>
                   <Text style={tailwind('font-bold text-base')}>{contact.name}</Text>
-                  <Text style={tailwind('text-base')}>{contact.id}</Text>
+                  <Text style={tailwind('text-base text-xs')}>{contact.id}</Text>
                 </View>
 
               </TouchableOpacity>
@@ -52,7 +52,7 @@ const Contacts = () => {
               <TouchableOpacity style={tailwind('flex-none py-2 ')}
                                 onPress={() => dispatch(removeContact(contact.id))}
               >
-                <Feather name='x-circle' size={24} />
+                <Feather name='x-circle' size={18} />
               </TouchableOpacity>
 
             </View>
