@@ -1,41 +1,19 @@
-import React, {createRef, useState} from "react";
+import React from "react";
 import {Text, View, StyleSheet, TouchableOpacity, Share} from "react-native";
-import {getKeys} from "../api";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import QRCode from 'react-native-qrcode-svg';
-import tailwind from "tailwind-rn";
 
 
 export const HomeScreen = ({ navigation }) => {
-    const [shareQR, setShareQR] = useState(false);
-    const [publicKey, setPublicKey] = useState(false);
     const navigateToContacts = () => navigation.navigate('Contacts');
-    const sharePublicKey = () => {
-        getKeys().then( keys => {
-            setPublicKey(keys.publicKey);
-            setShareQR(true);
-        } );
-    };
     const navigateToCreateContact = () => navigation.navigate('Create contact');
-
+    const navigateToSharePublicKey = () => navigation.navigate('Share public key');
     return (
         <View style={style.wrapper}>
-            { shareQR && <View style={tailwind('flex items-center justify-center h-full' )}>
-                <View>
-                    <TouchableOpacity style={style.buttonShare} onPress={() => setShareQR(false)}>
-                        <Text style={style.buttonNextText}>Back</Text>
-                    </TouchableOpacity>
-                    <QRCode size={300} value={ publicKey } />
-                    <TouchableOpacity style={style.buttonShare} onPress={() => Share.share({message: publicKey})}>
-                        <Text style={style.buttonNextText}>Share</Text>
-                    </TouchableOpacity>
-                </View>
-            </View> }
-            { !shareQR && <View>
+            <View>
                 <View style={style.container}>
                     <View style={style.menuItemWrapper}>
-                        <TouchableOpacity onPress={sharePublicKey} >
+                        <TouchableOpacity onPress={navigateToSharePublicKey} >
                             <View style={[style.menuItem,style.menuItemCloud]}>
                                 <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
                                 <Text style={style.menuItemHeading}>Share your public key</Text>
@@ -76,7 +54,7 @@ export const HomeScreen = ({ navigation }) => {
                     <Text style={style.buttonNextText} >Contacts</Text>
                     <MaterialIcons style={style.buttonNextIcon} name="arrow-forward-ios" size={32} color="green" />
                 </TouchableOpacity>
-            </View> }
+            </View>
         </View>
     );
 };

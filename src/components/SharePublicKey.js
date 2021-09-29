@@ -1,26 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {getKeys} from "../api";
-import {Share, TextInput, View} from "react-native";
+import {Share, Text, TextInput, TouchableOpacity, View} from "react-native";
 import tailwind from "tailwind-rn";
+import QRCode from "react-native-qrcode-svg";
 
 /**
- * TODO: Unused decide to remove
  * @returns {JSX.Element}
  * @constructor
  */
 const SharePublicKey = () => {
-    const [ key, setKey ] = useState('');
+    const [ key, setKey ] = useState(null);
     useEffect(() => {
-        getKeys()
-            .then( keys => setKey( keys.publicKey ) )
-            .then( () => {
-                // setTimeout(() => Share.share({message: key}), 1000);
-            });
+        getKeys().then( keys => setKey( keys.publicKey ) )
     },[]);
 
     return (
-        <View style={tailwind('flex items-center')}>
-            <TextInput style={tailwind('text-lg')} value={key}/>
+        <View style={tailwind('flex justify-center items-center h-full')}>
+            <TouchableOpacity onPress={() => Share.share({message: key})}>
+                { key && <QRCode size={300} value={key}/> }
+            </TouchableOpacity>
         </View>
     );
 };
