@@ -10,51 +10,49 @@ export const HomeScreen = ({ navigation }) => {
     const navigateToSharePublicKey = () => navigation.navigate('Share public key');
     return (
         <View style={style.wrapper}>
-            <View>
-                <View style={style.container}>
-                    <View style={style.menuItemWrapper}>
-                        <TouchableOpacity onPress={navigateToSharePublicKey} >
-                            <View style={[style.menuItem,style.menuItemCloud]}>
-                                <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
-                                <Text style={style.menuItemHeading}>Share your public key</Text>
-                                {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={style.menuItemWrapper}>
-                        <TouchableOpacity onPress={navigateToCreateContact}>
-                            <View style={[style.menuItem,style.menuItemKey]}>
-                                <MaterialCommunityIcons name="key" size={70} color="gray" />
-                                <Text style={style.menuItemHeading}>Paste friends public key</Text>
-                                {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={style.menuItemWrapper}>
-                        <TouchableOpacity onPress={navigateToContacts}>
-                            <View style={[style.menuItem,style.menuItemMail]}>
-                                <MaterialCommunityIcons name="message-text-lock-outline" size={70}  />
-                                <Text style={style.menuItemHeading}>Create protected message</Text>
-                                {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={style.menuItemWrapper}>
-                        <TouchableOpacity onPress={navigateToContacts}>
-                            <View style={[style.menuItem,style.menuItemSearch]}>
-                                <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
-                                <Text style={style.menuItemHeading}>Decrypt protected message</Text>
-                                {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
+            <View style={style.container}>
+                <View style={style.menuItemWrapper}>
+                    <TouchableOpacity onPress={navigateToSharePublicKey} >
+                        <View style={[style.menuItem,style.menuItemCloud]}>
+                            <MaterialCommunityIcons name="key-wireless" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Share your public key</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={style.buttonNext} onPress={navigateToContacts}>
-                    <Text style={style.buttonNextText} >Contacts</Text>
-                    <MaterialIcons style={style.buttonNextIcon} name="arrow-forward-ios" size={32} color="green" />
-                </TouchableOpacity>
+                <View style={style.menuItemWrapper}>
+                    <TouchableOpacity onPress={navigateToCreateContact}>
+                        <View style={[style.menuItem,style.menuItemKey]}>
+                            <MaterialCommunityIcons name="key" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Paste friends public key</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={style.menuItemWrapper}>
+                    <TouchableOpacity onPress={navigateToContacts}>
+                        <View style={[style.menuItem,style.menuItemMail]}>
+                            <MaterialCommunityIcons name="message-text-lock-outline" size={70}  />
+                            <Text style={style.menuItemHeading}>Create protected message</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={style.menuItemWrapper}>
+                    <TouchableOpacity onPress={navigateToContacts}>
+                        <View style={[style.menuItem,style.menuItemSearch]}>
+                            <MaterialCommunityIcons name="message-lock" size={70} color="gray" />
+                            <Text style={style.menuItemHeading}>Decrypt protected message</Text>
+                            {/*<Text style={style.menuItemParagraph}>with Your friends so that You can be contacted</Text>*/}
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
             </View>
+            <TouchableOpacity style={style.buttonNext} onPress={navigateToContacts}>
+                <Text style={style.buttonNextText} >Contacts</Text>
+                <MaterialIcons style={style.buttonNextIcon} name="arrow-forward-ios" size={32} color="green" />
+            </TouchableOpacity>
         </View>
     );
 };
