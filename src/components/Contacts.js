@@ -12,7 +12,6 @@ import { useNavigation } from "@react-navigation/core";
 import tailwind from "tailwind-rn";
 import Feather from "react-native-vector-icons/Feather";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-// import {Feather, MaterialCommunityIcons} from "@expo/vector-icons";
 
 const Contacts = () => {
   const navigation = useNavigation();
@@ -49,10 +48,10 @@ const Contacts = () => {
 
               </TouchableOpacity>
 
-              <TouchableOpacity style={tailwind('flex-none py-2 ')}
+              <TouchableOpacity style={tailwind('flex-none py-1')}
                                 onPress={() => dispatch(removeContact(contact.id))}
               >
-                <Feather name='x-circle' size={18} />
+                <Feather name='x' size={13} />
               </TouchableOpacity>
 
             </View>

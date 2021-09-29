@@ -1,5 +1,5 @@
-import React from "react";
-import {Text, View, StyleSheet, TouchableOpacity, Share} from "react-native";
+import React, {useEffect} from "react";
+import {Text, View, StyleSheet, TouchableOpacity, Linking} from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -8,6 +8,16 @@ export const HomeScreen = ({ navigation }) => {
     const navigateToContacts = () => navigation.navigate('Contacts');
     const navigateToCreateContact = () => navigation.navigate('Create contact');
     const navigateToSharePublicKey = () => navigation.navigate('Share public key');
+    useEffect(() => {
+        const handler = e => {
+            const url = e && e.url || '';
+            navigation.navigate('Create contact', url.replace('mesemes://', ''));
+        }
+        Linking.getInitialURL().then( handler );
+        Linking.addEventListener('url', handler);
+        return () => Linking.removeEventListener('url', handler);
+    }, []);
+
     return (
         <View style={style.wrapper}>
             <View style={style.container}>

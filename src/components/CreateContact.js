@@ -7,9 +7,9 @@ import {useClipBoardText} from "../hooks/useClipBoardText";
 import Feather from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const CreateContact = ({navigation}) => {
+const CreateContact = ({route,navigation}) => {
   const dispatch = useDispatch();
-  const [ contactPublicKey, setContactPublicKey ] = useState(null);
+  const [ contactPublicKey, setContactPublicKey ] = useState(route.params);
 
   const createContact = useCallback(name => {
     if(!name) return;
