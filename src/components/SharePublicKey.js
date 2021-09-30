@@ -16,9 +16,12 @@ const SharePublicKey = () => {
 
     return (
         <View style={tailwind('flex justify-center items-center h-full')}>
-            <TouchableOpacity onPress={() => Share.share({message: key})}>
-                { key && <QRCode size={300} value={`mesemes://${key}`}/> }
-            </TouchableOpacity>
+            { key && <QRCode size={300} value={`mesemes://${key}`}/> }
+            <View style={tailwind('flex w-full')}>
+                <TouchableOpacity style={tailwind('bg-gray-400 rounded-lg items-center p-3 mx-11 my-3')} onPress={() => Share.share({message: key})}>
+                    <Text style={tailwind('text-white')}>Share</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

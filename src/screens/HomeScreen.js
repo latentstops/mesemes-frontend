@@ -11,7 +11,7 @@ export const HomeScreen = ({ navigation }) => {
     useEffect(() => {
         const handler = e => {
             const url = e && e.url || '';
-            navigation.navigate('Create contact', url.replace('mesemes://', ''));
+            url && navigation.navigate('Create contact', url.replace('mesemes://', ''));
         }
         Linking.getInitialURL().then( handler );
         Linking.addEventListener('url', handler);
